@@ -3,7 +3,7 @@ header('Content-Type: application/json; charset=utf-8');
 
 $validKeys = [
     "TESTKEY123",
-    "ANOTHER-KEY-456"
+    "ANOTHER-KEY-456",
     "WidowSecretKey"
 ];
 
@@ -23,4 +23,5 @@ if (in_array($key, $validKeys, true)) {
     echo json_encode(["status" => "INVALID"]);
 }
 ?>
+
 

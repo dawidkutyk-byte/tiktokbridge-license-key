@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: tiktokbridge-license
+    env: php
+    plan: free
+    buildCommand: ""
+    startCommand: ""
+    envVars:
+      PHP_VERSION: 8.2

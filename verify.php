@@ -1,12 +1,6 @@
 <?php
 header('Content-Type: application/json; charset=utf-8');
 
-$validKeys = [
-    "TESTKEY123",
-    "ANOTHER-KEY-456",
-    "WidowSecretKey"
-];
-
 $key = isset($_GET['key']) ? trim($_GET['key']) : "";
 
 if ($key === "") {
@@ -14,14 +8,29 @@ if ($key === "") {
     exit;
 }
 
-if (in_array($key, $validKeys, true)) {
-    echo json_encode([
-        "status" => "VALID",
-        "expires" => date("Y-m-d", strtotime("+30 days"))
-    ]);
+// Wczytanie kluczy z JSON
+$keysFile = __DIR__ . '/keys.json';
+$keysData = file_exists($keysFile) ? json_decode(file_get_contents($keysFile), true) : [];
+
+if (isset($keysData[$key])) {
+    $expires = $keysData[$key];
+    $today = date("Y-m-d");
+
+    if ($expires >= $today) {
+        echo json_encode([
+            "status" => "VALID",
+            "expires" => $expires
+        ]);
+    } else {
+        echo json_encode([
+            "status" => "EXPIRED",
+            "expires" => $expires
+        ]);
+    }
 } else {
     echo json_encode(["status" => "INVALID"]);
 }
 ?>
+
 
 
